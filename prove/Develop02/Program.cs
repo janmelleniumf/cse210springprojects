@@ -4,76 +4,57 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Welcome to the Journal App!");
-        int actionNum = -1;
         Journal journal = new Journal();
-
-        do
+        // Using while loop to display the menu
+        while (true)
         {
-            Console.WriteLine();
-            Console.WriteLine("Menu:");
-            Console.WriteLine("1. Add a new Entry");
-            Console.WriteLine("2. Display the Journal data");
-            Console.WriteLine("3. Open a saved file");
-            Console.WriteLine("4. Save the journal");
-            Console.WriteLine("0. Quit");
-            Console.WriteLine();
+            Console.WriteLine("Journal Menu:");
+            Console.WriteLine("1. Add Entry");
+            Console.WriteLine("2. Display Entries");
+            Console.WriteLine("3. Load from File");
+            Console.WriteLine("4. Save to File");
+            Console.WriteLine("5. Exit");
 
-            string userNum = ReadUserInput();
-            actionNum = int.Parse(userNum);
+            Console.Write("Choose an option: ");
+            // converting the option into integer
+            int option = Convert.ToInt32(Console.ReadLine());
 
-            if(actionNum == 0)
-            {
-                break;
-            }
-            switch (actionNum)
-            {
+            switch (option)
+            {   
+                //AddEntry in Journal.cs method is used in the main using the case 1
                 case 1:
-                    PromptGenerator generate = new PromptGenerator();
-                    string prompt = generate.GeneratePrompt();
-                    Console.WriteLine("Today's prompt: " + prompt);
+                    PromptGenerator promptGenerator = new PromptGenerator();
+                    string prompt = promptGenerator.GeneratePrompt();
+                    Console.WriteLine($"Random prompt: {prompt}");
                     journal.AddEntry(prompt);
                     break;
                 case 2:
                     journal.DisplayEntries();
                     break;
+                //Added an option to load the file for both txt and json
                 case 3:
-                    LoadFromFile(journal);
+                    Console.Write("Enter a filename: ");
+                    string loadFilename = Console.ReadLine();
+                    Console.Write("Enter a file format (json or txt): ");
+                    string format = Console.ReadLine();
+                    journal.LoadFromFile(loadFilename, format);
                     journal.DisplayEntries();
                     break;
+                // saving the file either json or txt
                 case 4:
-                    SaveToFile(journal);
+                    Console.Write("Enter a filename: ");
+                    string saveFilename = Console.ReadLine();
+                    Console.Write("Enter a file format (json or txt): ");
+                    string fileFormat = Console.ReadLine();
+                    journal.SaveToFile(saveFilename, fileFormat);
+                    break;
+                case 5:
+                    Environment.Exit(0);
                     break;
                 default:
-                    Console.WriteLine("Invalid action number. Please try again.");
+                    Console.WriteLine("Invalid option. Please try again.");
                     break;
             }
-        } while (actionNum != 0);
-    }
-
-    private static string ReadUserInput()
-    {
-        return Console.ReadLine();
-    }
-
-    private static void LoadFromFile(Journal journal)
-    {
-        Console.Write("Enter the filename: ");
-        string filename = ReadUserInput();
-        Console.Write("Choose a file format (txt/json): ");
-        string fileFormat = ReadUserInput();
-
-        journal.LoadFromFile(filename, fileFormat);
-       
-    }
-
-    private static void SaveToFile(Journal journal)
-    {
-        Console.Write("Enter the filename: ");
-        string filename = ReadUserInput();
-        Console.Write("Choose a file format (txt/json): ");
-        string fileFormat = ReadUserInput();
-
-        journal.SaveToFile(filename, fileFormat);
+        }
     }
 }

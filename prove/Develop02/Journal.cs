@@ -48,15 +48,16 @@ public class Journal
             Console.WriteLine("Invalid file format. Please try again.");
         }
     }
+    
 
-    public void SaveToFile(string filename, string format)
+    public void SaveToFile(string filename, string fileFormat)
     {
-        if (format.ToLower() == "json")
+        if (fileFormat.ToLower() == "json")
         {
             string json = JsonSerializer.Serialize(_entries);
             File.WriteAllText(filename, json);
         }
-        else if (format.ToLower() == "txt")
+        else if (fileFormat.ToLower() == "txt")
         {
             List<string> lines = new List<string>();
             foreach (Entry entry in _entries)
