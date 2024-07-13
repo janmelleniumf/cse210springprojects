@@ -1,35 +1,31 @@
 public class Reference
 {
-    public string Book { get; set; }
-    public int Chapter { get; set; }
-    public int Verse { get; set; }
-    public int EndVerse { get; set; }
+    private string book;
+    private int chapter;
+    private int verse;
 
     public Reference(string book, int chapter, int verse)
     {
-        Book = book;
-        Chapter = chapter;
-        Verse = verse;
-        EndVerse = verse;
+        this.book = book;
+        this.chapter = chapter;
+        this.verse = verse;
     }
 
-    public Reference(string book, int chapter, int startVerse, int endVerse)
+    public string Book
     {
-        Book = book;
-        Chapter = chapter;
-        Verse = startVerse;
-        EndVerse = endVerse;
+        get { return book; }
+        private set { book = value; }
     }
 
-    public string GetDisplayText()
+    public int Chapter
     {
-        if (Verse == EndVerse)
-        {
-            return $"{Book} {Chapter}:{Verse}";
-        }
-        else
-        {
-            return $"{Book} {Chapter}:{Verse}-{EndVerse}";
-        }
+        get { return chapter; }
+        private set { chapter = value; }
+    }
+
+    public int Verse
+    {
+        get { return verse; }
+        private set { verse = value; }
     }
 }

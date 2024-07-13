@@ -1,42 +1,41 @@
 public class Scripture
 {
-    public Reference Reference { get; set; }
-    public string Text { get; set; }
-    public List<Word> Words { get; set; }
+    private Reference _reference;
+    private string _text;
+    private List<Word> _words;
 
     public Scripture(Reference reference, string text)
     {
-        // Initialize the reference, text, and words
-        Reference = reference;
-        Text = text;
-        Words = new List<Word>();
+        _reference = reference;
+        _text = text;
+        _words = new List<Word>();
 
-        // Split the text into individual words
-        string[] words = text.Split(' ');
-        foreach (string word in words)
+        string[] wordsArray = text.Split(' ');
+        foreach (string word in wordsArray)
         {
-            Words.Add(new Word(word));
+            _words.Add(new Word(word));
         }
     }
+
+    public Reference Reference { get { return _reference; } }
+    public string Text { get { return _text; } }
+    public List<Word> Words { get { return _words; } }
+
     public void HideRandomWords(int numWords)
     {
-        // Hide a specified number of random words
-        List<Word> words = Words;
         Random random = new Random();
 
         for (int i = 0; i < numWords; i++)
         {
-            int randomIndex = random.Next(0, words.Count);
-            Word word = words[randomIndex];
-            word.IsHidden = true;
-            words[randomIndex] = word;
+            int randomIndex = random.Next(0, Words.Count);
+            Word word = Words[randomIndex];
+            word.SetHidden(true);
+            Words[randomIndex] = word;
         }
     }
 
-    
     public string GetDisplayText()
     {
-        // Return the display text with hidden words replaced with underscores
         string displayText = "";
         foreach (Word word in Words)
         {
@@ -51,7 +50,6 @@ public class Scripture
         }
         return displayText.Trim();
     }
-
 
     public bool IsCompletelyHidden()
     {
